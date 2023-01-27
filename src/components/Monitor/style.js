@@ -50,7 +50,7 @@ export const ButtonForm = styled.button`
 `;
 
 export const InputDate = styled.input`
-  width: 40px;
+  width: 31px;
   height: 30px;
   outline: none;
   opacity: 0;
