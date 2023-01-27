@@ -12,7 +12,6 @@ import {
 import { totalDays } from "../../constants";
 
 export const CalendarGrid = ({ startDay, today }) => {
-
   let day = startDay.clone().subtract(1, "day");
 
   const daysArray = useMemo(() => {

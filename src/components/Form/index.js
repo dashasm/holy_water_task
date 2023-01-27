@@ -3,15 +3,8 @@ import moment from "moment";
 import { useSelector, useDispatch } from "react-redux";
 
 import {
-  FormPositionWrapper,
-  FormWrapper,
-  EventHeader,
-  TitleWrapper,
-  EventTitle,
   EventDate,
-  EventCloseButton,
   InputWrapper,
-  InputTitleHeader,
   Input,
   ErrorText,
   EventBody,
@@ -23,13 +16,22 @@ import {
   DeleteIconButton,
   InputTime,
 } from "./style";
+import {
+  EventTitle,
+  FormPositionWrapper,
+  FormWrapper,
+  EventHeader,
+  TitleWrapper,
+  EventCloseButton,
+  InputTitleHeader,
+} from "../stylesComponents";
 import DeleteIcon from "../../icons/delete.svg";
 import { setEvents, setSelectedEvent, setNewDate } from "../../eventsSlice";
-import { url } from "../../constants";
 
 export const Form = ({ isOpenForm, setIsOpenForm }) => {
   const { selectedEvent, newDate, events } = useSelector((state) => state);
   const dispatch = useDispatch();
+
   const [errors, setErrors] = useState({
     title: "",
     date: "",
@@ -71,38 +73,15 @@ export const Form = ({ isOpenForm, setIsOpenForm }) => {
     });
   };
 
-  
-
   const removeEventHandler = () => {
-    const fetchUrl = `${url}/events/${selectedEvent.id}`;
-    const httpMethod = "DELETE";
-
     const newEvents = events.filter(
       (eventEl) => eventEl.id !== selectedEvent.id
     );
     dispatch(setEvents(newEvents));
     cancelButtonHandler();
-
-    // fetch(fetchUrl, {
-    //   method: httpMethod,
-    //   headers: {
-    //     "Content-Type": "application/json",
-    //   },
-    // })
-    //   .then((res) => res.json())
-    //   .then((res) => {
-    //     const newEvents = events.filter(
-    //       (eventEl) => eventEl.id !== selectedEvent.id
-    //     );
-    //     dispatch(setEvents(newEvents));
-    //     cancelButtonHandler();
-    //   });
   };
 
-  const createEvent = () => {
-    const fetchUrl = `${url}/events`;
-    const httpMethod = "POST";
-
+  const validation = () => {
     if (!moment(newEvent.date, "DD.MM.YYYY", true).isValid()) {
       setErrors((prev) => ({
         ...prev,
@@ -118,6 +97,10 @@ export const Form = ({ isOpenForm, setIsOpenForm }) => {
       }));
       return;
     }
+  };
+
+  const createEvent = () => {
+    validation();
 
     const id = events.length
       ? Math.max(...events.map((elem) => elem.id)) + 1
@@ -134,42 +117,10 @@ export const Form = ({ isOpenForm, setIsOpenForm }) => {
 
     dispatch(setEvents(newEvents));
     cancelButtonHandler();
-
-    // fetch(fetchUrl, {
-    //   method: httpMethod,
-    //   headers: {
-    //     "Content-Type": "application/json",
-    //   },
-    //   body: JSON.stringify(postEvent),
-    // })
-    //   .then((res) => res.json())
-    //   .then((res) => {
-    //     const newEvents = [...events, postEvent];
-
-    //     dispatch(setEvents(newEvents));
-    //     cancelButtonHandler();
-    //   });
   };
 
   const updateEvent = () => {
-    const fetchUrl = `${url}/events/${selectedEvent.id}`;
-    const httpMethod = "PUT";
-
-    if (!moment(newDate, "DD.MM.YYYY", true).isValid()) {
-      setErrors((prev) => ({
-        ...prev,
-        date: "Incorrect date format",
-      }));
-      return;
-    }
-
-    if (!selectedEvent.title.length) {
-      setErrors((prev) => ({
-        ...prev,
-        title: "The title cannot be empty",
-      }));
-      return;
-    }
+    validation();
 
     const newEvent = {
       ...selectedEvent,
@@ -186,27 +137,6 @@ export const Form = ({ isOpenForm, setIsOpenForm }) => {
 
     dispatch(setEvents(newEvents));
     cancelButtonHandler();
-
-    // fetch(fetchUrl, {
-    //   method: httpMethod,
-    //   headers: {
-    //     "Content-Type": "application/json",
-    //   },
-    //   body: JSON.stringify(newEvent),
-    // })
-    //   .then((res) => res.json())
-    //   .then((res) => {
-    //     const newEvents = events.map((eventEl) => {
-    //       if (eventEl.id !== selectedEvent.id) {
-    //         return eventEl;
-    //       }
-
-    //       return newEvent;
-    //     });
-
-    //     dispatch(setEvents(newEvents));
-    //     cancelButtonHandler();
-    //   });
   };
 
   const updateDate = (date) => {

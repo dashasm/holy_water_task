@@ -1,9 +1,7 @@
 import { useSelector, useDispatch } from "react-redux";
 import moment from "moment";
 
-import { setShowList } from "../../eventsSlice";
-
-import { setSelectedEvent, setNewDate } from "../../eventsSlice";
+import { setSelectedEvent, setNewDate, setShowList } from "../../eventsSlice";
 import {
   EventListWrapper,
   EventListItemWrapper,
@@ -33,12 +31,11 @@ export const EventsList = ({ elem }) => {
       }
 
       return -1;
-    })
-    .slice(0, 2);
+    });
 
   return (
     <EventListWrapper>
-      {eventsForDay.map((event) => (
+      {eventsForDay.slice(0, 2).map((event) => (
         <EventListItemWrapper key={event.id}>
           <EventItemWrapper onDoubleClick={() => openFormHandler(event)}>
             {event.title}
@@ -55,22 +52,7 @@ export const EventsList = ({ elem }) => {
             onClick={() => {
               dispatch(
                 setShowList({
-                  events: events
-                    .filter(
-                      (event) =>
-                        event.date >= elem.format("X") &&
-                        event.date <= elem.clone().endOf("day").format("X")
-                    )
-
-                    .sort((a, b) => {
-                      if (moment(a.time).isAfter(moment(b.time))) {
-                        return 1;
-                      } else if (moment(a.time).isSame(moment(b.time))) {
-                        return 0;
-                      }
-
-                      return -1;
-                    }),
+                  events: eventsForDay,
                   date: elem.format("MMMM DD"),
                 })
               );
