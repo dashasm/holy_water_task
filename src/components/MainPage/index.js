@@ -8,10 +8,11 @@ import { Form } from "../Form";
 import { setEvents } from "../../eventsSlice";
 import { url, totalDays } from "../../constants";
 import { ShadowWrapper } from "./style";
-import { DayShowComponent } from "../DayContent";
+import { AllEventsForDay } from "../AllEventsForDay";
 
 export const MainPage = () => {
-  const { selectedEvent, selectedDay } = useSelector((state) => state);
+  const { selectedEvent, showList, events } = useSelector((state) => state);
+  console.log(events)
   const dispatch = useDispatch();
 
   const [today, setToday] = useState(moment());
@@ -30,27 +31,28 @@ export const MainPage = () => {
     return startDay.clone().add(totalDays, "days").format("X");
   }, [startDay]);
 
-  useEffect(() => {
-    fetch(`${url}/events?date_gte=${startDayQuery}&date_lte=${endDayQuery}`)
-      .then((res) => res.json())
-      .then((res) => dispatch(setEvents(res)));
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [endDayQuery, startDayQuery]);
+  // useEffect(() => {
+  //   fetch(`${url}/events?date_gte=${startDayQuery}&date_lte=${endDayQuery}`)
+  //     .then((res) => res.json())
+  //     .then((res) => dispatch(setEvents(res)));
+  //   // eslint-disable-next-line react-hooks/exhaustive-deps
+  // }, [endDayQuery, startDayQuery]);
 
   const prevHandler = () =>
     setToday((prev) => prev.clone().subtract(1, "month"));
   const nextHandler = () => setToday((prev) => prev.clone().add(1, "month"));
 
   const handleDate = (date) => {
-    setToday(moment(date))
-  }
+    setToday(moment(date));
+  };
 
   return (
     <>
       {selectedEvent || isOpenForm ? (
         <Form isOpenForm={isOpenForm} setIsOpenForm={setIsOpenForm} />
       ) : null}
-      {/* {selectedDay ? <DayShowComponent today={today} /> : null} */}
+
+      {showList && <AllEventsForDay />}
       <ShadowWrapper>
         <Monitor
           today={today}

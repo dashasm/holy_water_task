@@ -48,3 +48,29 @@ export const ButtonForm = styled.button`
   font-size: 25px;
   color: white;
 `;
+
+export const InputDate = styled.input`
+  width: 40px;
+  height: 30px;
+  outline: none;
+  opacity: 0;
+  position: relative;
+  z-index: 10;
+`;
+
+export const Label = styled.label`
+  position: relative;
+  width: 40px;
+  height: 30px;
+  border: 1px solid gray;
+  border-radius: 5px;
+  margin-left: 20px;
+`;
+
+export const Calendar = styled.img`
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  left: 9px;
+  top: 3px;
+`;

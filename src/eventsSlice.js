@@ -3,8 +3,8 @@ import { createSlice } from "@reduxjs/toolkit";
 const initialState = {
   events: [],
   selectedEvent: null,
-  selectedDay: null,
   newDate: null,
+  showList: null,
 };
 
 export const eventsSlice = createSlice({
@@ -20,13 +20,14 @@ export const eventsSlice = createSlice({
     setNewDate: (state, action) => {
       state.newDate = action.payload;
     },
-    setSelectedDay: (state, action) => {
-      state.selectedDay = action.payload;
+    setShowList: (state, action) => {
+      state.showList = action.payload;
     },
   },
 });
 
 // Action creators are generated for each case reducer function
-export const { setEvents, setSelectedEvent, setNewDate, setSelectedDay } = eventsSlice.actions;
+export const { setEvents, setSelectedEvent, setNewDate, setShowList } =
+  eventsSlice.actions;
 
 export default eventsSlice.reducer;

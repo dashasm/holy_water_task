@@ -1,5 +1,4 @@
 import { useMemo } from "react";
-import { useDispatch } from "react-redux";
 
 import { isCurrentDay, isSelectedMonth } from "../../helpers";
 import { EventsList } from "../EventsList";
@@ -11,10 +10,8 @@ import {
   DayWrapper,
 } from "./style";
 import { totalDays } from "../../constants";
-import { setSelectedDay } from "../../eventsSlice";
 
 export const CalendarGrid = ({ startDay, today }) => {
-  const dispatch = useDispatch();
 
   let day = startDay.clone().subtract(1, "day");
 
@@ -28,12 +25,6 @@ export const CalendarGrid = ({ startDay, today }) => {
         <CellWrapper
           key={elem}
           isWeekday={elem.day() === 6 || elem.day() === 0}
-          onClick={() => {
-            console.log(elem.format('X'), elem)
-            dispatch(setSelectedDay({
-              date: +elem.format('X')
-            }))
-          }}
         >
           <DateWrapper>
             {isCurrentDay(elem) ? (

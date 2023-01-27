@@ -52,8 +52,6 @@ export const Form = ({ isOpenForm, setIsOpenForm }) => {
     });
   };
 
-  console.log(selectedEvent, newEvent)
-
   const changeEventHandler = (text, field) => {
     if (selectedEvent) {
       const newEvent = {
@@ -73,24 +71,32 @@ export const Form = ({ isOpenForm, setIsOpenForm }) => {
     });
   };
 
+  
+
   const removeEventHandler = () => {
     const fetchUrl = `${url}/events/${selectedEvent.id}`;
     const httpMethod = "DELETE";
 
-    fetch(fetchUrl, {
-      method: httpMethod,
-      headers: {
-        "Content-Type": "application/json",
-      },
-    })
-      .then((res) => res.json())
-      .then((res) => {
-        const newEvents = events.filter(
-          (eventEl) => eventEl.id !== selectedEvent.id
-        );
-        dispatch(setEvents(newEvents));
-        cancelButtonHandler();
-      });
+    const newEvents = events.filter(
+      (eventEl) => eventEl.id !== selectedEvent.id
+    );
+    dispatch(setEvents(newEvents));
+    cancelButtonHandler();
+
+    // fetch(fetchUrl, {
+    //   method: httpMethod,
+    //   headers: {
+    //     "Content-Type": "application/json",
+    //   },
+    // })
+    //   .then((res) => res.json())
+    //   .then((res) => {
+    //     const newEvents = events.filter(
+    //       (eventEl) => eventEl.id !== selectedEvent.id
+    //     );
+    //     dispatch(setEvents(newEvents));
+    //     cancelButtonHandler();
+    //   });
   };
 
   const createEvent = () => {
@@ -124,20 +130,25 @@ export const Form = ({ isOpenForm, setIsOpenForm }) => {
       createdAt: moment().format("DD.MM.YYYY hh:mm"),
     };
 
-    fetch(fetchUrl, {
-      method: httpMethod,
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(postEvent),
-    })
-      .then((res) => res.json())
-      .then((res) => {
-        const newEvents = [...events, postEvent];
+    const newEvents = [...events, postEvent];
 
-        dispatch(setEvents(newEvents));
-        cancelButtonHandler();
-      });
+    dispatch(setEvents(newEvents));
+    cancelButtonHandler();
+
+    // fetch(fetchUrl, {
+    //   method: httpMethod,
+    //   headers: {
+    //     "Content-Type": "application/json",
+    //   },
+    //   body: JSON.stringify(postEvent),
+    // })
+    //   .then((res) => res.json())
+    //   .then((res) => {
+    //     const newEvents = [...events, postEvent];
+
+    //     dispatch(setEvents(newEvents));
+    //     cancelButtonHandler();
+    //   });
   };
 
   const updateEvent = () => {
@@ -165,26 +176,37 @@ export const Form = ({ isOpenForm, setIsOpenForm }) => {
       date: +moment(newDate, "DD.MM.YYYY").format("X"),
     };
 
-    fetch(fetchUrl, {
-      method: httpMethod,
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(newEvent),
-    })
-      .then((res) => res.json())
-      .then((res) => {
-        const newEvents = events.map((eventEl) => {
-          if (eventEl.id !== selectedEvent.id) {
-            return eventEl;
-          }
+    const newEvents = events.map((eventEl) => {
+      if (eventEl.id !== selectedEvent.id) {
+        return eventEl;
+      }
 
-          return newEvent;
-        });
+      return newEvent;
+    });
 
-        dispatch(setEvents(newEvents));
-        cancelButtonHandler();
-      });
+    dispatch(setEvents(newEvents));
+    cancelButtonHandler();
+
+    // fetch(fetchUrl, {
+    //   method: httpMethod,
+    //   headers: {
+    //     "Content-Type": "application/json",
+    //   },
+    //   body: JSON.stringify(newEvent),
+    // })
+    //   .then((res) => res.json())
+    //   .then((res) => {
+    //     const newEvents = events.map((eventEl) => {
+    //       if (eventEl.id !== selectedEvent.id) {
+    //         return eventEl;
+    //       }
+
+    //       return newEvent;
+    //     });
+
+    //     dispatch(setEvents(newEvents));
+    //     cancelButtonHandler();
+    //   });
   };
 
   const updateDate = (date) => {
@@ -250,7 +272,7 @@ export const Form = ({ isOpenForm, setIsOpenForm }) => {
               <InputTitleHeader>Begin time</InputTitleHeader>
               <InputTime
                 type="time"
-                value={selectedEvent.time ? selectedEvent.time : newEvent.time}
+                value={selectedEvent?.time ? selectedEvent.time : newEvent.time}
                 onChange={(e) => changeEventHandler(e.target.value, "time")}
               />
             </div>
