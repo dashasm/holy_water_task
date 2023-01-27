@@ -9,12 +9,15 @@ export const GridWrapper = styled.div`
 
 export const CellWrapper = styled.div`
   padding: 5px;
-  min-width: 140px;
-  min-height: 90px;
+  height: 90px;
   background-color: ${(props) => (props.isWeekday ? "#27282A" : "#1E1F21")};
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+
+  @media (max-width: 650px) {
+    height: 70px;
+  }
 `;
 
 export const DateWrapper = styled.div`

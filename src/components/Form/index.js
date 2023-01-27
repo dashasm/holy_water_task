@@ -15,6 +15,8 @@ import {
   ButtonWrapper,
   DeleteIconButton,
   InputTime,
+  DivWrapper,
+  Refresh,
 } from "./style";
 import {
   EventTitle,
@@ -26,6 +28,8 @@ import {
   InputTitleHeader,
 } from "../stylesComponents";
 import DeleteIcon from "../../icons/delete.svg";
+import RefreshIcon from "../../icons/refresh.svg";
+
 import { setEvents, setSelectedEvent, setNewDate } from "../../eventsSlice";
 
 export const Form = ({ isOpenForm, setIsOpenForm }) => {
@@ -155,6 +159,8 @@ export const Form = ({ isOpenForm, setIsOpenForm }) => {
     }
   };
 
+  const element = selectedEvent ? selectedEvent : newEvent;
+
   return (
     <FormPositionWrapper onClick={cancelButtonHandler}>
       <FormWrapper onClick={(e) => e.stopPropagation()}>
@@ -171,7 +177,7 @@ export const Form = ({ isOpenForm, setIsOpenForm }) => {
         <InputWrapper>
           <InputTitleHeader>Title *</InputTitleHeader>
           <Input
-            value={selectedEvent ? selectedEvent.title : newEvent.title}
+            value={element.title}
             onChange={(e) => changeEventHandler(e.target.value, "title")}
           />
           <ErrorText>{errors.title}</ErrorText>
@@ -179,12 +185,23 @@ export const Form = ({ isOpenForm, setIsOpenForm }) => {
 
         <InputWrapper>
           <InputTitleHeader>Description</InputTitleHeader>
-          <EventBody
-            value={
-              selectedEvent ? selectedEvent.description : newEvent.description
-            }
-            onChange={(e) => changeEventHandler(e.target.value, "description")}
-          />
+          <DivWrapper>
+            <EventBody
+              value={element.description}
+              onChange={(e) =>
+                changeEventHandler(e.target.value, "description")
+              }
+            />
+            {element.description && (
+              <Refresh
+                src={RefreshIcon}
+                alt="refresh"
+                onClick={() => {
+                  changeEventHandler("", "description");
+                }}
+              />
+            )}
+          </DivWrapper>
         </InputWrapper>
 
         <InputWrapper>
@@ -202,7 +219,7 @@ export const Form = ({ isOpenForm, setIsOpenForm }) => {
               <InputTitleHeader>Begin time</InputTitleHeader>
               <InputTime
                 type="time"
-                value={selectedEvent?.time ? selectedEvent.time : newEvent.time}
+                value={element.time}
                 onChange={(e) => changeEventHandler(e.target.value, "time")}
               />
             </div>

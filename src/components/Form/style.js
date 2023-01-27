@@ -2,14 +2,26 @@ import styled from "styled-components";
 
 export const EventBody = styled.textarea`
   font-size: 15px;
-  width: 100%;
+  width: 85%;
   border: unset;
   background-color: #1e1f21;
   color: #dddddd;
   outline: unset;
-  border-bottom: 1px solid #464648;
   resize: none;
   height: 70px;
+`;
+
+export const DivWrapper = styled.div`
+  border-bottom: 1px solid #464648;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  padding: 0 10px 10px 0;
+`;
+
+export const Refresh = styled.img`
+  width: 20px;
+  cursor: pointer;
 `;
 
 export const ButtonsWrapper = styled.div`

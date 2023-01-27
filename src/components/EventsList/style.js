@@ -19,7 +19,6 @@ export const EventItemWrapper = styled.button`
   text-overflow: ellipsis;
   overflow: hidden;
   white-space: nowrap;
-  width: 114px;
   border: unset;
   color: #dddddd;
   cursor: pointer;
